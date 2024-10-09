@@ -1,4 +1,0 @@
-{
-  "using": "css selector",
-  "value": " //*[@id=\"menu-\"]/div[3]/ul/li[2]"
-}
