@@ -1,0 +1,55 @@
+name: WebdriverIO CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.20.4]
+
+    steps:
+    # Step 1: Check out repository code
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Node.js with caching
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: npm
+
+    # Step 3: Verify Node.js and npm versions
+    - name: Verify Node and npm versions
+      run: |
+        node -v
+        npm -v
+
+    # Step 4: Install dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # Step 5: Run WebdriverIO tests
+    - name: Run WebdriverIO tests
+      run: npm run wdio
+
+    # Step 6: Upload logs if tests fail
+    - name: Upload logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-report
+        path: ./allure-report
+
+    # Step 7: Report success if all tests pass
+    - name: Report success
+      if: success()
+      run: echo "All tests passed successfully!"
+
