@@ -29,6 +29,8 @@ describe("IntainVA", () => {
     ).click();
     console.log("Dropdown clicked");
     await browser.pause(3000);
+    await browser.pause(3000);
+
 
     const adminOption = await $('li[data-value="Processor"]');
     await adminOption.click();

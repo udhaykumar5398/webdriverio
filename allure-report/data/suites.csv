@@ -1,3 +1,3 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","38838","login page","","Thu Oct 17 10:29:59 IST 2024","passed","Thu Oct 17 10:30:38 IST 2024","","IntainVA","",""
+"","35419","login page","","Tue Oct 08 13:22:09 IST 2024","passed","Tue Oct 08 13:22:45 IST 2024","","IntainVA","",""
 "","42102","login page","","Tue Oct 08 13:07:45 IST 2024","broken","Tue Oct 08 13:08:27 IST 2024","","IntainVA","",""
