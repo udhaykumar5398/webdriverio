@@ -64,10 +64,13 @@ export const config = {
     capabilities: [{
         browserName: 'firefox',
         'moz:firefoxOptions': {
-            args: ['--devtools'], // Enable DevTools
+            args: [
+                '--headless',           // Run in headless mode
+                '--disable-gpu',         // Disable GPU acceleration
+                '--disable-dev-shm-usage'// Disable shared memory usage
+            ],
         },
     }],
-
     //
     // ===================
     // Test Configurations
