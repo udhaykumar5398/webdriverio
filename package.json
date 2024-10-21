@@ -8,6 +8,7 @@
     "@wdio/mocha-framework": "^9.0.8",
     "@wdio/spec-reporter": "^9.0.8",
     "@wdio/visual-service": "^6.0.0",
+    "allure-commandline": "^2.30.0",
     "browsermob-proxy": "^1.0.13",
     "selenium-webdriver": "^4.25.0",
     "wdio-wait-for": "^3.0.11"
