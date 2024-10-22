@@ -156,6 +156,8 @@ export const config = {
         // disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: false,
     }]],
+// wdio.conf.js
+
 
 
     //
