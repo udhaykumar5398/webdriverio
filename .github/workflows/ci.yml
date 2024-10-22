@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -32,16 +32,9 @@ jobs:
       - name: Generate Allure Report
         run: npx allure generate ./allure-results --clean -o ./allure-report
 
-      # Deploy Allure report to GitHub Pages
+      # Deploy the Allure report to GitHub Pages
       - name: Deploy Allure Report to GitHub Pages
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout --orphan gh-pages
-          git reset
-          cp -r ./allure-report/* .
-          git add .
-          git commit -m "Deploy Allure report"
-          git push --force origin gh-pages  # Push to 'origin' without adding it
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report  # Directory where Allure report is generated
