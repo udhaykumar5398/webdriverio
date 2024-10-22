@@ -5,13 +5,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
+
+      - name: Install Firefox
+        run: sudo apt-get install -y firefox
 
       - name: Install dependencies
         run: npm install
@@ -24,23 +27,13 @@ jobs:
       - name: Install Allure Command-line
         run: npm install allure-commandline --save-dev
 
-      # Ensure allure-results directory exists
-      - name: Ensure Allure Results Directory
-        run: mkdir -p ./allure-results
-
       # Generate Allure report
       - name: Generate Allure Report
         run: npx allure generate ./allure-results --clean -o ./allure-report
 
-      # Deploy the Allure report to GitHub Pages
-      - name: Deploy Allure Report to GitHub Pages
-        run: |
-          git init  # Ensure git is initialized
-          git config --global user.name "udhaykumar5398"
-          git config --global user.email "udhaykumar5398@users.noreply.github.com"
-          git add .
-          git commit -m "Deploy Allure report"
-          git remote add origin https://github.com/udhaykumar5398/webdriverio.git  # Ensure correct remote
-          git push --force origin gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Upload the Allure report as an artifact
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allureReport
+          path: ./allure-report 
