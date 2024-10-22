@@ -37,13 +37,11 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git init
-          git remote add origin https://github.com/udhaykumar5398/webdriverio.git  # Correct the remote URL
           git checkout --orphan gh-pages
           git reset
           cp -r ./allure-report/* .
           git add .
           git commit -m "Deploy Allure report"
-          git push --force origin gh-pages
+          git push --force origin gh-pages  # Push to 'origin' without adding it
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
