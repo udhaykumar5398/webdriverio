@@ -1,0 +1,14 @@
+[90m2024-10-18T09:05:27.249Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m username/accesskey not passed
+[90m2024-10-18T09:05:27.250Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m app is not defined in browserstack-service config, skipping ...
+[90m2024-10-18T09:05:27.250Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Sending launch start event
+[90m2024-10-18T09:05:28.335Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m [Start_Build] Success response: {"errorTraceId":"630c384a-bae5-46c0-9358-e97571f228f7","message":"Access to BrowserStack denied due to incorrect credentials.","errorType":"ERROR_INVALID_CREDENTIALS"}
+[90m2024-10-18T09:05:28.338Z[39m [96mINFO[39m [97m@wdio/browserstack-service[39m browserstackLocal is not enabled - skipping...
+[90m2024-10-18T09:05:31.414Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m teardown started
+[90m2024-10-18T09:05:31.414Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m teardown ended
+[90m2024-10-18T09:05:31.604Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Inside OnComplete hook..
+[90m2024-10-18T09:05:31.604Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Sending stop launch event
+[90m2024-10-18T09:05:31.604Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m [STOP_BUILD] Missing Authentication Token/ Build ID
+[90m2024-10-18T09:05:31.604Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m username/accesskey not passed
+[90m2024-10-18T09:05:31.605Z[39m [96mINFO[39m [97m@wdio/browserstack-service[39m If facing any issues, please contact BrowserStack support with the Build Run Id - 93bb7166-8ee1-490f-ac26-618c2b4ce344
+[90m2024-10-18T09:05:31.605Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Uploading logs failed due to no credentials
+[90m2024-10-18T09:05:31.606Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Response - undefined
