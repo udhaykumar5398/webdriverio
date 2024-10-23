@@ -65,15 +65,14 @@ export const config = {
     services: ['devtools'], // Add this line to include the DevTools service
 
     capabilities: [{
-        browserName: 'firefox',
-        'moz:firefoxOptions': {
-            args: [
-                '--headless',           // Run in headless mode
-                '--disable-gpu',         // Disable GPU acceleration
-                '--disable-dev-shm-usage'// Disable shared memory usage
-            ],
-        },
+      maxInstances: 5,
+      browserName: 'firefox',
+      'moz:firefoxOptions': {
+        args: ['-headless']  // Optionally, use headless mode for Firefox
+      },
+      acceptInsecureCerts: true
     }],
+    
     //
     // ===================
     // Test Configurations
