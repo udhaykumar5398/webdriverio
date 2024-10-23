@@ -1,37 +1,39 @@
-name: Deploy Allure Report to GitHub Pages
-
+name: CI
 on:
   push:
     branches:
-      - main  # Specify the branches you want to trigger on for pushes
+      - main  # Change to your target branch
   pull_request:
     branches:
-      - main  # Specify the branches you want to trigger on for pull requests
+      - main  # Change to your target branch
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'  # Specify your Node.js version
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run tests
-      run: npm test
+      # Run your WebdriverIO tests
+      - name: Run WebdriverIO Tests
+        run: npm run wdio
 
-    - name: Generate Allure Report
-      run: npx allure generate ./allure-results --clean
+      # Install Allure command-line tool
+      - name: Install Allure Command-line
+        run: npm install allure-commandline --save-dev
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./allure-report  # Change this if your report path is different
+      # Ensure allure-results directory exists
+      - name: Ensure Allure Results Directory
+        run: mkdir -p ./allure-results
+
+      # Generate Allure report
+      - name: Generate Allure Report
+        run: npx allure generate ./allure-results --clean -o ./allure-report
