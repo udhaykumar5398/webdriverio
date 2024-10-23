@@ -26,14 +26,17 @@ jobs:
       - name: Run WebdriverIO Tests
         run: npm run wdio
 
-      # Install Allure command-line tool
-      - name: Install Allure Command-line
-        run: npm install allure-commandline --save-dev
-
-      # Ensure allure-results directory exists
-      - name: Ensure Allure Results Directory
-        run: mkdir -p ./allure-results
+      # Check if allure-results directory is populated
+      - name: List Allure Results
+        run: ls -la ./allure-results
 
       # Generate Allure report
       - name: Generate Allure Report
         run: npx allure generate ./allure-results --clean -o ./allure-report
+
+      # Upload Allure report as an artifact
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: allure-report
+          path: ./allure-report
