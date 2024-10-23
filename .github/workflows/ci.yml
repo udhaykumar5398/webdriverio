@@ -1,30 +1,54 @@
 name: CI
+
 on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    env:
+      CI: true  # Setting the CI environment variable
+
     steps:
+      # Checkout the repository
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Run your WebdriverIO tests
+      # Install Firefox (if you're using Firefox for WebdriverIO tests)
+      - name: Install Firefox
+        run: sudo apt-get install -y firefox
+
+      # Ensure the Firefox version (if you're using Firefox for WebdriverIO)
+      - name: Check Firefox Version
+        run: firefox --version
+
+      # Optional: List node and npm versions for debugging
+      - name: Check Node and NPM Versions
+        run: |
+          node -v
+          npm -v
+
+      # Run WebdriverIO tests
       - name: Run WebdriverIO Tests
         run: npm run wdio
+        # Optional: Add debugging to see test results output
+        continue-on-error: false  # If you want to stop the workflow if tests fail
 
       # Install Allure command-line tool
       - name: Install Allure Command-line
         run: npm install allure-commandline --save-dev
 
-      # Ensure allure-results directory exists
+      # Ensure the allure-results directory exists
       - name: Ensure Allure Results Directory
         run: mkdir -p ./allure-results
 
@@ -45,3 +69,7 @@ jobs:
         with:
           name: allure-report
           path: ./allure-report
+
+      # Optional: Debugging step to list files in the project directory
+      - name: List Files in Current Directory
+        run: ls -al
