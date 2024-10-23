@@ -63,13 +63,13 @@ export const config = {
 
   capabilities: [{
     browserName: 'firefox',
-    // 'moz:firefoxOptions': {
-    //     args: [
-    //         '--headless',           // Run in headless mode
-    //         '--disable-gpu',         // Disable GPU acceleration
-    //         '--disable-dev-shm-usage' // Disable shared memory usage (useful for Docker)
-    //     ],
-    // },
+    'moz:firefoxOptions': {
+        args: [
+            '--headless',           // Run in headless mode
+            '--disable-gpu',         // Disable GPU acceleration
+            '--disable-dev-shm-usage' // Disable shared memory usage (useful for Docker)
+        ],
+    },
 
  }],
 
