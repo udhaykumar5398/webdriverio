@@ -65,16 +65,16 @@ export const config = {
     browserName: 'firefox',
     'moz:firefoxOptions': {
         args: [
-            '--headless',           // Run in headless mode
-            '--disable-gpu',         // Disable GPU acceleration
-            '--disable-dev-shm-usage' // Disable shared memory usage (useful for Docker)
-        ],
-    },
+            '--headless',             // Run in headless mode
+            '--disable-gpu',           // Disable GPU acceleration (optional, mostly relevant for Chrome)
+            '--no-sandbox',            // Bypass OS security model (optional)
+            '--disable-dev-shm-usage', // Disable shared memory usage (optional)
+            '--window-size=1920,1080'  // Set window size to ensure consistency
+        ]
+    }
+}],
 
- }],
 
-
- services: ['geckodriver'],
 
  
   //
