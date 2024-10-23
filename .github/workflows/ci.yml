@@ -1,47 +1,30 @@
 name: CI
-
 on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    env:
-      CI: true  # Set the CI environment variable
-
     steps:
-      # Checkout the repository
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Install Firefox (if you're using Firefox for WebdriverIO tests)
-      - name: Install Firefox
-        run: sudo apt-get install -y firefox
-
-      # Install xvfb (Virtual FrameBuffer)
-      - name: Install xvfb
-        run: sudo apt-get install -y xvfb
-
-      # Run tests with a virtual display using xvfb-run
-      - name: Run WebdriverIO Tests with xvfb
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" npm run wdio
-        continue-on-error: false  # Fail the build if tests fail
+      # Run your WebdriverIO tests
+      - name: Run WebdriverIO Tests
+        run: npm run wdio
 
       # Install Allure command-line tool
       - name: Install Allure Command-line
         run: npm install allure-commandline --save-dev
 
-      # Ensure the allure-results directory exists
+      # Ensure allure-results directory exists
       - name: Ensure Allure Results Directory
         run: mkdir -p ./allure-results
 
@@ -49,16 +32,9 @@ jobs:
       - name: Generate Allure Report
         run: npx allure generate ./allure-results --clean -o ./allure-report
 
-      # Upload the Allure results (raw data) as an artifact
-      - name: Upload Allure Results
-        uses: actions/upload-artifact@v4
+      # Deploy the report using a GitHub Pages action
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: allure-results
-          path: ./allure-results
-
-      # Upload the generated Allure report as an artifact
-      - name: Upload Allure Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: ./allure-report
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report

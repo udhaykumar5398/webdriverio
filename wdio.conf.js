@@ -61,19 +61,27 @@ export const config = {
   // https://saucelabs.com/platform/platform-configurator
   services: ['devtools', 'intercept', 'firefox-profile'],
 
-  capabilities: [{
-    browserName: 'firefox',
-    'moz:firefoxOptions': {
-        args: [
-            '--headless',             // Run in headless mode
-            '--disable-gpu',           // Disable GPU acceleration (optional, mostly relevant for Chrome)
-            '--no-sandbox',            // Bypass OS security model (optional)
-            '--disable-dev-shm-usage', // Disable shared memory usage (optional)
-            '--window-size=1920,1080'  // Set window size to ensure consistency
-        ]
-    }
-}],
+  services: ['intercept'],
+    services: ['devtools'], // Add this line to include the DevTools service
 
+    capabilities: [{
+        browserName: 'firefox',
+        'moz:firefoxOptions': {
+            args: [
+                '--headless',           // Run in headless mode
+                '--disable-gpu',         // Disable GPU acceleration
+                '--disable-dev-shm-usage'// Disable shared memory usage
+            ],
+        },
+    }],
+    //
+    // ===================
+    // Test Configurations
+    // ===================
+    // Define all options that are relevant for the WebdriverIO instance here
+    //
+    // Level of logging verbosity: trace | debug | info | warn | error | silent
+  
 
 
  
