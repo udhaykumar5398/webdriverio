@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      CI: true  # Setting the CI environment variable
+      CI: true  # Set the CI environment variable
 
     steps:
       # Checkout the repository
@@ -28,21 +28,14 @@ jobs:
       - name: Install Firefox
         run: sudo apt-get install -y firefox
 
-      # Ensure the Firefox version (if you're using Firefox for WebdriverIO)
-      - name: Check Firefox Version
-        run: firefox --version
+      # Install xvfb (Virtual FrameBuffer)
+      - name: Install xvfb
+        run: sudo apt-get install -y xvfb
 
-      # Optional: List node and npm versions for debugging
-      - name: Check Node and NPM Versions
-        run: |
-          node -v
-          npm -v
-
-      # Run WebdriverIO tests
-      - name: Run WebdriverIO Tests
-        run: npm run wdio
-        # Optional: Add debugging to see test results output
-        continue-on-error: false  # If you want to stop the workflow if tests fail
+      # Run tests with a virtual display using xvfb-run
+      - name: Run WebdriverIO Tests with xvfb
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" npm run wdio
+        continue-on-error: false  # Fail the build if tests fail
 
       # Install Allure command-line tool
       - name: Install Allure Command-line
@@ -69,7 +62,3 @@ jobs:
         with:
           name: allure-report
           path: ./allure-report
-
-      # Optional: Debugging step to list files in the project directory
-      - name: List Files in Current Directory
-        run: ls -al
