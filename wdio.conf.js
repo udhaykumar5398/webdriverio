@@ -29,7 +29,7 @@ export const config = {
    // './test/specs/adminLogIn.e2e.js',
      //'./test/specs/adminDashboard.e2e.js',
   //'./test/specs/adminProcessor.e2e.js',
-     //'./test/specs/adminFieldAddScreen.e2e.js',
+    // './test/specs/adminFieldAddScreen.e2e.js',
     './test/specs/ProcessorDashboard.e2e.js'
 
 
@@ -70,7 +70,7 @@ export const config = {
       maxInstances: 5,
       browserName: 'firefox',
       'moz:firefoxOptions': {
-       // args: ['-headless']  // Optionally, use headless mode for Firefox
+        args: ['-headless']  // Optionally, use headless mode for Firefox
       },
       acceptInsecureCerts: true
     }],
