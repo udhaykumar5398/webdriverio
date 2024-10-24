@@ -1,4 +1,6 @@
 
+import path from 'path';
+
 
 export const config = {
   //
@@ -29,7 +31,7 @@ export const config = {
    // './test/specs/adminLogIn.e2e.js',
      //'./test/specs/adminDashboard.e2e.js',
   //'./test/specs/adminProcessor.e2e.js',
-    // './test/specs/adminFieldAddScreen.e2e.js',
+     //'./test/specs/adminFieldAddScreen.e2e.js',
     './test/specs/ProcessorDashboard.e2e.js'
 
 
@@ -59,22 +61,38 @@ export const config = {
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
   // https://saucelabs.com/platform/platform-configurator
-  services: ['devtools', 'intercept', 'firefox-profile'],
+  services: ['devtools', 'intercept', 'firefox-profile', 'selenium-standalone'],
 
-  capabilities: [{
-    browserName: 'firefox',
-    'moz:firefoxOptions': {
-        args: [
-            '--headless',           // Run in headless mode
-            '--disable-gpu',         // Disable GPU acceleration
-            '--disable-dev-shm-usage' // Disable shared memory usage (useful for Docker)
-        ],
+
+
+    capabilities: [{
+      maxInstances: 5,
+      browserName: 'firefox',
+      'moz:firefoxOptions': {
+       args: ['-headless']  // Optionally, use headless mode for Firefox
+      },
+      acceptInsecureCerts: true
+    }],
+    
+    onPrepare: function (capabilities, specs) {
+      // Optional: Clean allure-results directory before each run
+      const allureResultsDir = path.join(__dirname, './allure-results');
+  
+      if (fs.existsSync(allureResultsDir)) {
+        fs.rmdirSync(allureResultsDir, { recursive: true });
+      }
+      fs.mkdirSync(allureResultsDir);
     },
+  
+    //
+    // ===================
+    // Test Configurations
+    // ===================
+    // Define all options that are relevant for the WebdriverIO instance here
+    //
+    // Level of logging verbosity: trace | debug | info | warn | error | silent
+  
 
- }],
-
-
- services: ['geckodriver'],
 
  
   //
@@ -148,7 +166,14 @@ export const config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ['spec'],
+  reporters: [
+    'spec',
+    ['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+    }],
+],
 
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
@@ -157,11 +182,14 @@ export const config = {
       timeout: 300000
   },
 
-  reporters: [['allure', {
-      outputDir: 'allure-results',
-      // disableWebdriverStepsReporting: true,
-      disableWebdriverScreenshotsReporting: false,
-  }]],
+  reporters: [
+    'spec', // Other reporters can be added here
+    ['allure', {
+        outputDir: './allure-results', // Where the allure results will be saved
+        disableWebdriverStepsReporting: true, // Optional, depending on your needs
+        disableWebdriverScreenshotsReporting: true // Optional, depending on your needs
+    }]
+],
 // wdio.conf.js
 
 
@@ -331,4 +359,5 @@ export const config = {
   */
   // afterAssertion: function(params) {
   // }
+
 }
