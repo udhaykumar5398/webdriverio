@@ -29,8 +29,8 @@ export const config = {
    // './test/specs/adminLogIn.e2e.js',
      //'./test/specs/adminDashboard.e2e.js',
   //'./test/specs/adminProcessor.e2e.js',
-    // './test/specs/adminFieldAddScreen.e2e.js',
-    './test/specs/ProcessorDashboard.e2e.js'
+    './test/specs/adminFieldAddScreen.e2e.js',
+   // './test/specs/ProcessorDashboard.e2e.js'
 
 
 ],
@@ -64,10 +64,11 @@ export const config = {
 
 
   capabilities: [{
+    maxInstances: 1,
     browserName: 'firefox',
     'moz:firefoxOptions': {
-        args: ['--headless', '--disable-gpu', '--disable-dev-shm-usage']
-    }
+        args: ['-headless'],  // Enable headless mode
+    },
 }],
   
   
@@ -120,7 +121,7 @@ export const config = {
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
-  connectionRetryTimeout: 180000,
+  connectionRetryTimeout: 90000,
   //
   // Default request retries count
   connectionRetryCount: 3,
@@ -281,11 +282,11 @@ onPrepare: function (capabilities, specs) {
   // afterTest: function(test, context, { error, result, duration, passed, retries }) {
   // },
 
-  afterTest: async function(test, context, { error, result, duration, passed, retries }) {
-      if (error) {
-        await browser.takeScreenshot();
+  afterTest: async function (test, context, { error }) {
+    if (browser.sessionId) {
+        await browser.saveScreenshot('./errorShots/test_failed.png');
     }
-    },
+}
 
 
   /**
