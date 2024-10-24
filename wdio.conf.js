@@ -1,6 +1,4 @@
 
-import path from 'path';
-
 
 export const config = {
   //
@@ -61,29 +59,33 @@ export const config = {
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
   // https://saucelabs.com/platform/platform-configurator
-  services: ['devtools', 'intercept', 'firefox-profile', 'selenium-standalone'],
+  services: ['devtools', 'intercept', 'firefox-profile'],
 
+  services: ['intercept'],
+    services: ['devtools'], // Add this line to include the DevTools service
+    services: ['selenium-standalone'], // Example service, adjust as needed
 
 
     capabilities: [{
       maxInstances: 5,
       browserName: 'firefox',
-      // 'moz:firefoxOptions': {
-      //  // args: ['-headless']  // Optionally, use headless mode for Firefox
-      // },
-      // acceptInsecureCerts: true
+      'moz:firefoxOptions': {
+       // args: ['-headless']  // Optionally, use headless mode for Firefox
+      },
+      acceptInsecureCerts: true
     }],
     
     onPrepare: function (capabilities, specs) {
       // Optional: Clean allure-results directory before each run
+      const fs = require('fs');
+      const path = require('path');
       const allureResultsDir = path.join(__dirname, './allure-results');
-  
+
       if (fs.existsSync(allureResultsDir)) {
-        fs.rmdirSync(allureResultsDir, { recursive: true });
+          fs.rmdirSync(allureResultsDir, { recursive: true });
       }
       fs.mkdirSync(allureResultsDir);
-    },
-  
+  },
     //
     // ===================
     // Test Configurations
