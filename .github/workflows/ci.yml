@@ -1,11 +1,6 @@
 name: CI
-on:
-  push:
-    branches:
-      - main  # Change to your target branch
-  pull_request:
-    branches:
-      - main  # Change to your target branch
+
+on: [push, pull_request]
 
 jobs:
   build:
@@ -30,21 +25,24 @@ jobs:
       - name: Install Allure Command-line
         run: npm install allure-commandline --save-dev
 
-      # Verify Allure Installation
-      - name: Verify Allure Installation
-        run: npx allure --version
-
-      # Ensure allure-results directory exists and is populated
-      - name: List Allure Results
-        run: ls -la ./allure-results
+      # Ensure allure-results directory exists
+      - name: Ensure Allure Results Directory
+        run: mkdir -p ./allure-results
 
       # Generate Allure report
       - name: Generate Allure Report
         run: npx allure generate ./allure-results --clean -o ./allure-report
 
-      # Upload Allure report as an artifact
+      # Upload the Allure results (raw data) as an artifact
+      - name: Upload Allure Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: ./allure-results
+
+      # Upload the generated Allure report as an artifact
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: ./allure-report
