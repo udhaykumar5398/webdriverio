@@ -59,28 +59,18 @@ export const config = {
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
   // https://saucelabs.com/platform/platform-configurator
-  services: ['devtools', 'intercept', 'firefox-profile'],
-
-  services: ['intercept'],
-    services: ['devtools'], // Add this line to include the DevTools service
-    services: ['selenium-standalone'], // Example service, adjust as needed
+  services: ['devtools', 'intercept', 'firefox-profile','selenium-standalone'],
 
 
-    capabilities: [{
-      browserName: 'firefox'
-  }],
-    
-    onPrepare: function (capabilities, specs) {
-      // Optional: Clean allure-results directory before each run
-      const fs = require('fs');
-      const path = require('path');
-      const allureResultsDir = path.join(__dirname, './allure-results');
 
-      if (fs.existsSync(allureResultsDir)) {
-          fs.rmdirSync(allureResultsDir, { recursive: true });
-      }
-      fs.mkdirSync(allureResultsDir);
-  },
+  capabilities: [{
+    browserName: 'firefox',
+    'moz:firefoxOptions': {
+        args: ['--headless', '--disable-gpu', '--disable-dev-shm-usage']
+    }
+}],
+  
+  
     //
     // ===================
     // Test Configurations
@@ -126,11 +116,11 @@ export const config = {
   // baseUrl: 'http://localhost:8080',
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
+  waitforTimeout: 20000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
-  connectionRetryTimeout: 120000,
+  connectionRetryTimeout: 180000,
   //
   // Default request retries count
   connectionRetryCount: 3,
@@ -166,27 +156,30 @@ export const config = {
   reporters: [
     'spec',
     ['allure', {
-        outputDir: 'allure-results',
+        outputDir: './allure-results',
         disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: true,
-    }],
+        disableWebdriverScreenshotsReporting: true
+    }]
 ],
+onPrepare: function (capabilities, specs) {
+  // Clean allure-results before each run
+  const fs = require('fs');
+  const path = require('path');
+  const allureResultsDir = path.join(__dirname, './allure-results');
 
+  if (fs.existsSync(allureResultsDir)) {
+      fs.rmdirSync(allureResultsDir, { recursive: true });
+  }
+  fs.mkdirSync(allureResultsDir);
+},
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
   mochaOpts: {
-      ui: 'bdd',
-      timeout: 300000
-  },
+    ui: 'bdd',
+    timeout: 300000
+},
 
-  reporters: [
-    'spec', // Other reporters can be added here
-    ['allure', {
-        outputDir: './allure-results', // Where the allure results will be saved
-        disableWebdriverStepsReporting: true, // Optional, depending on your needs
-        disableWebdriverScreenshotsReporting: true // Optional, depending on your needs
-    }]
-],
+
 // wdio.conf.js
 
 
