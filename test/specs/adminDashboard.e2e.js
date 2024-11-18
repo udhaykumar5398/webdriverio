@@ -69,7 +69,6 @@ describe("IntainVA_adminDashboard", () => {
   await selectAndClickElementByText(elements, 'Issuer');
   await selectAndClickElementByText(elements, 'Processor');
   await selectAndClickElementByText(elements, 'No. of Loans');
-  await selectAndClickElementByText(elements, 'Date Created');
 
    
   const AddDeal = await $(
