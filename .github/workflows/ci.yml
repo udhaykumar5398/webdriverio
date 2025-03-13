@@ -42,9 +42,15 @@ jobs:
       - name: Generate Allure Report
         run: npx allure generate ./allure-results --clean -o ./allure-report
 
+      # Ensure allure-report directory exists
+      - name: Ensure Allure Report Directory Exists
+        run: |
+          mkdir -p allure-report
+          ls -la allure-report || echo "No allure-report found"
+
       # Upload Allure report as an artifact
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v3.1.2  # Switched to explicit version
+        uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: ./allure-report
