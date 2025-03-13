@@ -22,21 +22,42 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      # Run WebdriverIO tests
       - name: Run WebdriverIO Tests
         run: npm run wdio
 
+      # Install Allure Command-line tool globally
       - name: Install Allure Command-line
         run: npm install -g allure-commandline --save-dev
 
+      # Verify Allure Installation
       - name: Verify Allure Installation
         run: allure --version
 
+      # Ensure allure-results directory exists and is populated
       - name: List Allure Results
         run: ls -la ./allure-results || echo "No allure-results found"
 
-      - name: Generate Allure Report
-        run: allure generate ./allure-results --clean -o ./allure-report
+      # Run the custom Allure report generation command
+      - name: Generate Allure Report (npm script)
+        run: npm run generateAllureReport || echo "Failed to generate Allure report"
 
+      # Serve Allure Report (For Local Use Only, Skipped in CI)
+      - name: Serve Allure Report (Local Debugging)
+        run: |
+          allure serve allure-results || echo "Skipping allure serve in CI"
+
+      # Generate Allure Report as a single file
+      - name: Generate Single-File Allure Report
+        run: allure generate --single-file allure-results --clean -o ./allure-report
+
+      # Ensure allure-report directory exists
+      - name: Ensure Allure Report Directory Exists
+        run: |
+          mkdir -p allure-report
+          ls -la allure-report || echo "No allure-report found"
+
+      # Upload Allure report as an artifact (using latest v4)
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
