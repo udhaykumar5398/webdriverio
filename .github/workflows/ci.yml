@@ -38,9 +38,7 @@ jobs:
       - name: List Allure Results
         run: ls -la ./allure-results || echo "No allure-results found"
 
-      # Generate Allure Report (No Server Start)
-      - name: Generate Allure Report
-        run: npm run generateAllureReport || echo "Failed to generate Allure report"
+     
 
       # Generate Allure Report as a single file (No opening in CI)
       - name: Generate Single-File Allure Report
