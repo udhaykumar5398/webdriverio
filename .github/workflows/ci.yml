@@ -38,8 +38,8 @@ jobs:
       - name: List Allure Results
         run: ls -la ./allure-results || echo "No allure-results found"
 
-      # Run the custom Allure report generation command
-      - name: Generate Allure Report (npm script)
+      # Generate Allure Report (No Server Start)
+      - name: Generate Allure Report
         run: npm run generateAllureReport || echo "Failed to generate Allure report"
 
       # Generate Allure Report as a single file (No opening in CI)
@@ -52,7 +52,7 @@ jobs:
           mkdir -p allure-report
           ls -la allure-report || echo "No allure-report found"
 
-      # Upload Allure report as an artifact
+      # Upload Allure Report as an Artifact
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
