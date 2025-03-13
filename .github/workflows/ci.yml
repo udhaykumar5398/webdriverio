@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches:
@@ -11,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -19,7 +20,7 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
       # Run your WebdriverIO tests
@@ -38,13 +39,22 @@ jobs:
       - name: List Allure Results
         run: ls -la ./allure-results
 
-      # Generate Allure report
+      # Generate Allure Report
       - name: Generate Allure Report
-        run: npx allure generate ./allure-results --clean -o ./allure-report
+        run: npm run generateAllureReport
+
+      # Serve Allure Report (For Local Use Only, Not Needed in CI)
+      - name: Serve Allure Report (Local Debugging)
+        run: |
+          npx allure serve allure-results || echo "Skipping allure serve in CI"
+
+      # Generate Allure Report as a single HTML file
+      - name: Generate Single File Allure Report
+        run: npx allure generate --single-file allure-results --clean -o allure-report
 
       # Upload Allure report as an artifact
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: allure-report
-          path: ./allure-report
+          path: allure-report
