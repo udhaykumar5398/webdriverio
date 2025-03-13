@@ -2,10 +2,10 @@ name: CI
 on:
   push:
     branches:
-      - main  # Change to your target branch
+      - main
   pull_request:
     branches:
-      - main  # Change to your target branch
+      - main
 
 jobs:
   build:
@@ -19,10 +19,10 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependenciesa
+      - name: Install Dependencies
         run: npm install
 
-      # Run your WebdriverIO tests
+      # Run WebdriverIO tests
       - name: Run WebdriverIO Tests
         run: npm run wdio
 
@@ -36,7 +36,7 @@ jobs:
 
       # Ensure allure-results directory exists and is populated
       - name: List Allure Results
-        run: ls -la ./allure-results
+        run: ls -la ./allure-results || echo "No allure-results found"
 
       # Generate Allure report
       - name: Generate Allure Report
@@ -44,7 +44,7 @@ jobs:
 
       # Upload Allure report as an artifact
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2  # Switched to explicit version
         with:
           name: allure-report
           path: ./allure-report
